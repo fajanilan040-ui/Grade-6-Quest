@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>WORDWISE QUEST</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&family=Nunito:wght@500;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#10243a;--card:#17344f;--ink:#f4f1e6;--gold:#ffc83d;--teal:#2ec4b6;--red:#ff7a66;--ok:#4cd964}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0,#1d4a6b,var(--bg) 60%);color:var(--ink);font:500 17px/1.5 Nunito,sans-serif;min-height:100vh}
+h1,h2,h3,.big{font-family:Fredoka,sans-serif;margin:.2em 0}h1{font-size:clamp(2rem,7vw,3.4rem);color:var(--gold);letter-spacing:.02em}
+.pg{display:none;max-width:860px;margin:0 auto;padding:20px 16px 110px}.pg.on{display:block;animation:in .35s}@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.card{background:var(--card);border-radius:18px;padding:18px;margin:12px 0;border:2px solid #25506f}
+button{font:700 1rem Nunito;border:0;border-radius:12px;padding:12px 18px;margin:4px;background:var(--gold);color:#241b00;cursor:pointer}button.alt{background:#2b5b80;color:var(--ink)}button:focus-visible,input:focus-visible{outline:3px solid var(--teal)}
+input{width:100%;padding:11px;margin:4px 0 10px;border-radius:10px;border:2px solid #2b5b80;background:#0d1d2e;color:var(--ink);font:inherit}
+.tc{text-align:center}.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.bar{height:12px;background:#0d1d2e;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--teal)}
+.word{font:700 clamp(3rem,16vw,7rem) Fredoka;color:var(--gold);text-align:center;margin:10px 0}
+.mic{width:84px;height:84px;border-radius:50%;font-size:2rem}.mic.on{background:var(--red);animation:pulse 1s infinite}@keyframes pulse{50%{box-shadow:0 0 0 14px #ff7a6655}}
+#fb{min-height:64px;text-align:center;font:700 1.3rem Fredoka}.good{color:var(--ok)}.warn{color:var(--gold)}
+#sb{position:fixed;bottom:0;left:0;right:0;background:#0a1826;padding:8px 12px;display:none;flex-wrap:wrap;gap:4px 14px;justify-content:center;font-size:.85rem;border-top:2px solid #25506f}
+.buddy{display:flex;gap:12px;align-items:center}.buddy svg{width:90px;flex:none;animation:bob 2.4s ease-in-out infinite}@keyframes bob{50%{transform:translateY(-6px)}}
+.say{background:#0d1d2e;border-radius:14px;padding:10px 14px}table{width:100%;border-collapse:collapse}td,th{padding:6px;border-bottom:1px solid #25506f;text-align:left;font-size:.9rem}
+.star{display:inline-block;font-size:2rem;animation:pop .5s backwards}@keyframes pop{from{transform:scale(0) rotate(-90deg)}}.badge{display:inline-block;background:#0d1d2e;border:2px solid var(--gold);border-radius:20px;padding:3px 12px;margin:3px}
+dialog{background:var(--card);color:var(--ink);border:2px solid var(--gold);border-radius:16px}@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<template id="bd"><svg viewBox="0 0 100 120"><circle cx="50" cy="38" r="22" fill="#f1c9a0"/><path d="M26 34q24-30 48 0z" fill="#2ec4b6"/><rect x="22" y="32" width="56" height="6" rx="3" fill="#1b8f85"/><circle cx="42" cy="42" r="3" fill="#222"/><circle cx="58" cy="42" r="3" fill="#222"/><path d="M42 50q8 7 16 0" stroke="#222" stroke-width="2.5" fill="none"/><rect x="30" y="62" width="40" height="40" rx="12" fill="#ffc83d"/><rect x="38" y="72" width="24" height="18" rx="2" fill="#fff"/><path d="M50 72v18" stroke="#c33"/></svg></template>
+
+<section class="pg on" id="p-welcome"><div class="tc"><h1>WORDWISE QUEST</h1><h2>THE GRADE 6 READING ADVENTURE</h2><p><b>READ • RECOGNIZE • PRONOUNCE • ACHIEVE</b></p></div>
+<div class="card buddy"><span class="bdg"></span><div class="say">Hi, explorer! Read sight words, earn stars and unlock badges. Ready for the quest?</div></div>
+<div class="tc"><button onclick="show('join')">START ADVENTURE</button><button class="alt" onclick="show('how')">HOW TO PLAY</button><br><button class="alt" onclick="openT()">Teacher dashboard</button></div></section>
+
+<section class="pg" id="p-how"><h2>How to play</h2><div class="card"><ol><li>Pick a level, then a batch of 10 words.</li><li>Press <b>PLAY WORD</b> to hear it.</li><li>Press the microphone and read the word aloud.</li><li>You get 2 tries. Any result lets you move to the next word.</li><li>Finish 10 words to see your report and stars.</li></ol>
+<p><b>Needs:</b> Chrome or Edge, internet, and microphone permission. No voice recordings are saved. If your browser can't listen, your teacher can check your reading.</p></div><button onclick="show('welcome')">BACK</button></section>
+
+<section class="pg" id="p-join"><h2>Learner information</h2><form class="card" id="jf">
+Complete name<input id="n" required>Grade level<input id="g" value="Grade 6" required>Section<input id="s" required>School name<input id="sc" required>Teacher's name<input id="t" required>
+Class code (from your teacher)<input id="c" required autocapitalize="characters">4-digit PIN (make one up; remember it)<input id="pin" required pattern="\d{4}" inputmode="numeric" type="password">
+<p id="je" class="warn"></p><button>CONTINUE</button></form><p class="tc">Only your name, section, school and reading results are saved, for your teacher.</p></section>
+
+<section class="pg" id="p-dash"><h2 id="hi"></h2><div class="card buddy"><span class="bdg"></span><div class="say" id="dmsg"></div></div><div class="card" id="sum"></div><div class="grid" id="lvls"></div><div id="bt" class="card"></div></section>
+
+<section class="pg" id="p-play"><div class="buddy"><span class="bdg"></span><div class="say" id="pmsg"></div></div><div id="lbl" class="tc"></div><div class="word" id="w"></div>
+<div class="tc"><button onclick="say()">🔊 PLAY WORD</button><button class="mic" id="mic" onclick="listen()" aria-label="Read the word aloud">🎤</button><button class="alt" onclick="tverify()">TEACHER PRONUNCIATION</button><button onclick="nextW()">NEXT WORD ▶</button></div><div id="fb"></div><div class="tc"><button class="alt" onclick="dash()">BACK TO LEVELS</button></div></section>
+
+<section class="pg" id="p-rep"><div class="card tc" id="rep"></div><div class="tc"><button onclick="nextB()">NEXT BATCH</button><button class="alt" onclick="prac()">PRACTICE MISSED WORDS</button><button class="alt" onclick="dash()">BACK TO LEVELS</button><button class="alt" onclick="dash(1)">VIEW MY PROGRESS</button></div></section>
+
+<section class="pg" id="p-teach"><h2>Teacher dashboard</h2><div class="tc"><button onclick="loadT()">Refresh</button><button class="alt" onclick="logoutT()">Log out</button><button class="alt" onclick="show('welcome')">Exit</button></div><div class="card" id="tcls"></div><div class="card" id="tdet"></div></section>
+<div id="sb"></div>
+<dialog id="dl"><form id="tf"><h3>Teacher login</h3><input id="tu" placeholder="Username" autocomplete="username"><input id="tp" type="password" placeholder="Password" autocomplete="current-password"><p id="te" class="warn"></p><button>Log in</button> <button type="button" class="alt" onclick="dl.close()">Cancel</button></form></dialog>
+<script>
+const CONFIG={API:"https://script.google.com/macros/s/AKfycbxA4ngfPVWtZ0kCsJJmOV7qYfehvqPf4cGxChKXKwq3b7CvNwIz3zUpr9LWlM1LPPlY/exec"};
+// Fry Instant Words sample (approx. words 401-500, 601-700, 801-900). Teachers can replace via the "Words" sheet. Verify against the published Fry list.
+let BANK={easy:"body music color stand sun fish area mark dog horse birds problem room knew since piece told friends easy heard".split(" "),
+avg:"done English road half ten gave box finally wait correct quickly person became minutes strong front street decided contain surface".split(" "),
+hard:"matter square perhaps suddenly direction center general energy subject region believe exercise difference distance probably interest beautiful discovered century temperature".split(" ")};
+const LV={easy:["EASY","Word Explorer","Familiar words. Build speed and confidence."],avg:["AVERAGE","Reading Adventurer","Trickier words. Build fluency."],hard:["DIFFICULT","Reading Champion","Less familiar words. Build accuracy."]};
+const HOM={knew:["new"],piece:["peace"],heard:["herd"],wait:["weight"],sun:["son"],color:["colour"],center:["centre"],road:["rode"],english:["inglish"]};
+const $=i=>document.getElementById(i),dl=$('dl');let S=JSON.parse(localStorage.getItem('wwq')||'null')||{p:null,att:[]},R=null,T=JSON.parse(sessionStorage.getItem('wwt')||'null'),tries=0,TD=null,tcb=null;
+document.querySelectorAll('.bdg').forEach(e=>e.innerHTML=$('bd').innerHTML);
+const store=()=>localStorage.setItem('wwq',JSON.stringify(S)),show=i=>{document.querySelectorAll('.pg').forEach(x=>x.classList.remove('on'));$('p-'+i).classList.add('on');$('sb').style.display=i=='play'?'flex':'none';scrollTo(0,0)};
+async function api(a,d={}){if(!CONFIG.API.startsWith('http'))return{ok:false,err:'offline'};try{return await(await fetch(CONFIG.API,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({a,...d})})).json()}catch(e){return{ok:false,err:'offline'}}}
+api('words').then(r=>{if(r.ok){const g={};r.rows.forEach(x=>(g[x[0]]=g[x[0]]||[]).push(String(x[1]).trim()));for(const k in g)if(BANK[k]&&g[k].length>=10)BANK[k]=g[k]}});
+const nb=l=>Math.floor(BANK[l].length/10),bw=(l,b)=>BANK[l].slice(b*10,b*10+10),shuf=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const last=(att,f=()=>1)=>{const m={};att.filter(f).forEach(x=>m[x.w]=x.r);return m};
+function stat(l,b,att=S.att){const m=last(att,x=>x.lv==l&&x.b==b),ws=bw(l,b).filter(w=>m[w]),c=ws.filter(w=>m[w]=='c').length;return{n:ws.length,c,x:ws.length-c,acc:ws.length?Math.round(c/ws.length*100):0,done:ws.length==10}}
+const stars=a=>a>=90?3:a>=80?2:1,mastered=att=>{const k={};att.forEach(x=>{if(x.r=='c')k[x.w]=(k[x.w]||0)+1});const m=last(att);return Object.keys(m).filter(w=>m[w]=='c'&&k[w]>=2||m[w]=='c'&&att.some(x=>x.w==w&&x.src=='teacher'&&x.r=='c'))},missed=att=>{const m=last(att);return Object.keys(m).filter(w=>m[w]=='x')};
+$('jf').onsubmit=async e=>{e.preventDefault();const p={name:$('n').value.trim(),grade:$('g').value,section:$('s').value,school:$('sc').value,teacher:$('t').value,code:$('c').value.trim().toUpperCase(),pin:$('pin').value};
+const r=await api('join',p);if(!r.ok&&r.err!='offline'){$('je').textContent=r.err;return}S.p=p;if(r.ok)S.att=r.att;else if(S.att.length&&S.p&&S.p.name!=p.name)S.att=[];store();dash()};
+function badges(){const a=S.att,b=[];let any=0,full=0,avgd=0,hardc=0;for(const l in LV)for(let i=0;i<nb(l);i++){const s=stat(l,i);if(s.done){any++;if(s.acc==100)full++;if(l=='avg')avgd++;if(l=='hard'&&s.acc>=90)hardc++}}
+if(any)b.push('Word Explorer');if(avgd)b.push('Reading Adventurer');if(full)b.push('Pronunciation Star');if(hardc)b.push('Reading Champion');if(mastered(a).length>=10)b.push('Word Master');return b}
+function dash(v){const a=S.att,tot=Object.keys(LV).reduce((t,l)=>t+Array.from({length:nb(l)},(_,i)=>stat(l,i)).filter(s=>s.done).reduce((q,s)=>q+stars(s.acc),0),0),b=badges();
+$('hi').textContent='Welcome, '+S.p.name.split(' ')[0]+'!';$('dmsg').textContent=v?'Here is your progress. Every word you read helps you grow!':'Choose a level to begin your quest.';
+$('sum').innerHTML=`<h3>My progress</h3>⭐ ${tot} stars · ✅ ${mastered(a).length} words mastered · 🔁 ${missed(a).length} to practice<br>${b.map(x=>'<span class="badge">🏅 '+x+'</span>').join('')||'<i>Finish a batch to earn your first badge.</i>'}`;
+$('lvls').innerHTML=Object.keys(LV).map(l=>{const ss=Array.from({length:nb(l)},(_,i)=>stat(l,i)),d=ss.filter(s=>s.done).length,st=ss.filter(s=>s.done).reduce((q,s)=>q+stars(s.acc),0),nx=Math.max(0,ss.findIndex(s=>!s.done));return`<div class="card"><h3>${LV[l][0]} – ${LV[l][1]}</h3><p>${LV[l][2]}</p><div class="bar"><i style="width:${d/nb(l)*100}%"></i></div><p>Batches done: ${d}/${nb(l)} · ⭐ ${st}</p><button onclick="start('${l}',${d==nb(l)?0:nx})">${d?'CONTINUE':'START'}</button></div>`}).join('');
+const pm=missed(a);$('bt').innerHTML=pm.length?`<b>Recommended practice:</b> ${pm.slice(0,12).join(', ')}<br><button onclick="prac(1)">PRACTICE MISSED WORDS</button>`:'No practice words right now. Great work!';show('dash')}
+function start(l,b,ws,pr){R={lv:l,b,ws:ws||shuf(bw(l,b)),i:0,res:{},pr:!!pr};$('lbl').textContent=pr?'Practice round':LV[l][0]+' – '+LV[l][1]+' · Batch '+(b+1);show('play');render()}
+function render(){if(R.i>=R.ws.length)return fin();tries=0;$('w').textContent=R.ws[R.i];$('fb').textContent='';$('pmsg').textContent=`Word ${R.i+1} of ${R.ws.length}. Tap 🔊 to listen first, then 🎤 to read it.`;score()}
+function score(){const n=Object.keys(R.res).length,c=Object.values(R.res).filter(x=>x=='c').length,pm=Object.values(R.res).filter(x=>x=='x').length;$('sb').innerHTML=`<span>${LV[R.lv][1]}</span><span>Batch ${R.pr?'practice':R.b+1}</span><span>Attempted ${n}</span><span>Correct ${c}</span><span>Incorrect ${pm}</span><span>To practice ${pm}</span><span>Accuracy ${n?Math.round(c/n*100)+'%':'—'}</span>`}
+function say(){if(!window.speechSynthesis)return $('fb').textContent='Audio is not available in this browser.';speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(R.ws[R.i]);u.lang='en-US';u.rate=.8;speechSynthesis.speak(u)}
+function rec(r,src){const w=R.ws[R.i];R.res[w]=r;const x={t:Date.now(),lv:R.lv,b:R.pr?'P':R.b,w,r,src:src||'auto'};S.att.push(x);store();api('save',{...S.p,att:x});score()}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;let lang='en-PH';
+function listen(){if(!SR){$('fb').innerHTML='<span class="warn">Speech recognition isn\'t supported in this browser. Use Chrome or Edge, or ask your teacher to check your reading.</span>';return}
+const t=R.ws[R.i].toLowerCase(),r=new SR();let got=0;r.lang=lang;r.maxAlternatives=3;$('mic').classList.add('on');$('fb').textContent='Listening…';
+r.onresult=e=>{got=1;const alts=[...e.results[0]].map(a=>a.transcript.toLowerCase().replace(/[^a-z' ]/g,'').trim()),ok=[t,...(HOM[t]||[])];tries++;
+if(alts.some(a=>a.split(' ').some(x=>ok.includes(x)))){rec('c');$('fb').innerHTML='<span class="good">✔ CORRECT!</span><br>Great reading!'}
+else if(tries<2)$('fb').innerHTML='<span class="warn">NEEDS PRACTICE!</span><br>Good try. Press 🔊 to listen, then 🎤 to try once more.';
+else{rec('x');$('fb').innerHTML='<span class="warn">NEEDS PRACTICE!</span><br>We\'ll practice this word again. Ask your teacher to check, or go to the next word.'}};
+r.onerror=e=>{got=1;if(e.error=='language-not-supported'&&lang!='en-US'){lang='en-US';return listen()}$('fb').innerHTML='<span class="warn">UNABLE TO DETECT VOICE!</span><br>'+(e.error=='not-allowed'?'Please allow the microphone in your browser, then try again.':'Check your microphone and try again. This does not count as a mistake.')};
+r.onend=()=>{$('mic').classList.remove('on');if(!got)$('fb').innerHTML='<span class="warn">UNABLE TO DETECT VOICE!</span><br>Try again a little louder. This does not count as a mistake.'};try{r.start()}catch(e){$('mic').classList.remove('on')}}
+function tverify(){needT(()=>{const ok=confirm('Teacher check: was "'+R.ws[R.i]+'" read correctly?\nOK = Correct   Cancel = Needs practice');rec(ok?'c':'x','teacher');$('fb').innerHTML=ok?'<span class="good">✔ CORRECT! (teacher verified)</span>':'<span class="warn">NEEDS PRACTICE! (teacher verified)</span>'})}
+const nextW=()=>{R.i++;render()};
+function fin(){const m=R.res,ks=Object.keys(m),c=ks.filter(k=>m[k]=='c').length,n=ks.length,acc=n?Math.round(c/n*100):0,miss=ks.filter(k=>m[k]=='x');R.miss=miss;
+if(R.pr){$('rep').innerHTML=`<h2>Practice complete!</h2><p>${c} of ${n} words read correctly.</p>`;return show('rep')}
+const f=acc>=90?['OUTSTANDING!','You are a Reading Champion! Excellent work. Keep up your amazing reading skills!']:acc>=80?['VERY GOOD!','Great job! Your reading skills are improving. Keep practicing!']:acc>=70?['GOOD EFFORT!','You are making progress. Continue practicing to become an even better reader!']:['KEEP TRYING!','Every reading adventure helps you improve. Practice makes progress. You can do it!'],sk=n==10?stars(acc):0;
+$('rep').innerHTML=`<h2>${f[0]}</h2><p>${f[1]}</p><div>${'<span class="star">⭐</span>'.repeat(sk)}</div><table><tr><td>Pupil</td><td>${S.p.name}</td></tr><tr><td>Level / Batch</td><td>${LV[R.lv][1]} / ${R.b+1}</td></tr><tr><td>Words assessed</td><td>${n} of 10</td></tr><tr><td>Correct / Incorrect</td><td>${c} / ${n-c}</td></tr><tr><td>Accuracy</td><td>${acc}%</td></tr><tr><td>Words to practice</td><td>${miss.join(', ')||'None!'}</td></tr><tr><td>Badges</td><td>${badges().join(', ')||'Keep going!'}</td></tr></table>${n<10?'<p class="warn">Some words were skipped. Redo the batch to earn stars.</p>':''}`;show('rep')}
+const nextB=()=>R.pr?dash():start(R.lv,(R.b+1)%nb(R.lv)),prac=v=>{const w=v||!R?missed(S.att):R.miss;if(!w||!w.length)return alert('No missed words to practice right now.');start(R?R.lv:'easy',0,shuf(w),1)};
+function needT(cb){if(T)return cb();tcb=cb;$('te').textContent='';dl.showModal()}
+$('tf').onsubmit=async e=>{e.preventDefault();$('te').textContent='Checking…';const r=await api('login',{user:$('tu').value.trim(),pw:$('tp').value});if(!r.ok){$('te').textContent=r.err=='offline'?'Cannot reach the server. Check the Apps Script URL and that access is set to Anyone.':r.err;return}T=r;sessionStorage.setItem('wwt',JSON.stringify(T));$('tp').value='';dl.close();const f=tcb;tcb=null;f&&f()};
+const openT=()=>needT(()=>{show('teach');loadT()}),logoutT=()=>{T=null;sessionStorage.removeItem('wwt');show('welcome')};
+async function loadT(){const r=await api('tdata',{token:T.token});if(!r.ok){if(/expired/i.test(r.err))logoutT();return $('tcls').textContent=r.err}TD=r;const rows=r.pupils.map(p=>{const a=r.att.filter(x=>x.n==p.name),m=last(a),n=Object.keys(m).length,c=Object.values(m).filter(x=>x=='c').length,acc=n?Math.round(c/n*100):0;return`<tr><td><a href="#" onclick="det('${p.name.replace(/'/g,"\\'")}');return false" style="color:var(--gold)">${p.name}</a> (${p.section})</td><td>${n}</td><td>${acc}%</td><td>${mastered(a).length}</td><td>${n>=5&&acc<70?'⚠ Needs intervention':n?'On track':'Not started'}</td></tr>`}).join(''),cnt={};r.att.forEach(x=>{if(x.r=='x')cnt[x.w]=(cnt[x.w]||0)+1});
+$('tcls').innerHTML=`<h3>Class ${T.code}</h3><table><tr><th>Pupil</th><th>Words</th><th>Accuracy</th><th>Mastered</th><th>Status</th></tr>${rows||'<tr><td colspan=5>No pupils yet.</td></tr>'}</table><p><b>Frequently missed:</b> ${Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,8).map(e=>e[0]+' ('+e[1]+')').join(', ')||'none yet'}</p>`;$('tdet').innerHTML='Select a pupil to review, override or reset results.'}
+function det(n){const a=TD.att.filter(x=>x.n==n),m=last(a);$('tdet').innerHTML=`<h3>${n}</h3><table><tr><th>Word</th><th>Latest</th><th>Set as</th></tr>${Object.keys(m).map(w=>{const x=a.filter(y=>y.w==w).pop();return`<tr><td>${w}</td><td>${m[w]=='c'?'✔':'✖'} ${x.src=='teacher'?'(teacher)':''}</td><td><button onclick="ov('${n.replace(/'/g,"\\'")}','${x.lv}','${w}','c')">Mastered</button><button class="alt" onclick="ov('${n.replace(/'/g,"\\'")}','${x.lv}','${w}','x')">Needs practice</button></td></tr>`}).join('')}</table><button class="alt" onclick="rs('${n.replace(/'/g,"\\'")}')">Reset this pupil's activities</button>`}
+async function ov(n,lv,w,r){await api('tset',{token:T.token,name:n,lv,w,r});await loadT();det(n)}
+async function rs(n){if(confirm('Delete all results for '+n+'? This cannot be undone.')){await api('treset',{token:T.token,name:n});if(S.p&&S.p.name==n){S.att=[];store()}loadT()}}
+</script></body></html>
